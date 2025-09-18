@@ -435,3 +435,127 @@ body {
   }
 }
 
+
+/* Form collapse styles */
+.form-toggle-container {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.form-collapsed {
+  display: none !important;
+}
+
+.btn-secondary {
+  background: #6b7280;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+  background: #4b5563;
+}
+
+/* Mobile-friendly table styles */
+.mobile-table-container {
+  display: none;
+}
+
+.mobile-club-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-club-header {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 0.75rem;
+  text-align: center;
+  padding: 0.5rem;
+  background: #f9fafb;
+  border-radius: 0.25rem;
+}
+
+.mobile-distance-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.mobile-distance-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+
+.mobile-distance-label {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.mobile-distance-value {
+  font-weight: bold;
+  font-size: 0.875rem;
+}
+
+.mobile-distance-value.baseline {
+  color: #6b7280;
+}
+
+.mobile-distance-value.carry {
+  color: #3b82f6;
+}
+
+.mobile-distance-value.rollout {
+  color: #f59e0b;
+}
+
+.mobile-distance-value.total {
+  color: #ef4444;
+}
+
+.mobile-final-distance {
+  grid-column: 1 / -1;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.mobile-final-distance .mobile-distance-value {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Mobile responsive breakpoints */
+@media (max-width: 768px) {
+  .table-container {
+    display: none !important;
+  }
+  
+  .mobile-table-container {
+    display: block !important;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  
+  .conditions-display {
+    font-size: 0.875rem !important;
+    padding: 0.75rem !important;
+  }
+}
+

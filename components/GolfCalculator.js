@@ -150,12 +150,28 @@ export default function GolfCalculator({ playerData }) {
       conditions: formatConditions(temperature, windDirection, windSpeed, greenCondition, rainCondition),
       clubs: calculatedResults
     });
+    
+    // Collapse form after calculation
+    setFormCollapsed(true);
   };
 
   return (
     <div>
+      {/* Form Toggle Button (only show when form is collapsed and results exist) */}
+      {formCollapsed && results && (
+        <div className="form-toggle-container">
+          <button 
+            type="button" 
+            onClick={() => setFormCollapsed(false)}
+            className="btn btn-secondary btn-center"
+          >
+            🔧 Adjust Conditions
+          </button>
+        </div>
+      )}
+
       {/* Form */}
-      <form onSubmit={handleCalculate}>
+      <form onSubmit={handleCalculate} className={formCollapsed ? 'form-collapsed' : ''}>
         <div className="form-grid">
           {/* Temperature */}
           <div className="form-group">
@@ -265,7 +281,7 @@ export default function GolfCalculator({ playerData }) {
             Current Conditions: {results.conditions}
           </div>
 
-          {/* Results Table */}
+          {/* Desktop Results Table */}
           <div className="table-container">
             <table className="results-table">
               <thead>
@@ -291,6 +307,41 @@ export default function GolfCalculator({ playerData }) {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile Results Cards */}
+          <div className="mobile-table-container">
+            {results.clubs.map((club, index) => (
+              <div key={index} className="mobile-club-card">
+                <div className="mobile-club-header">
+                  {club.club}
+                </div>
+                <div className="mobile-distance-grid">
+                  <div className="mobile-distance-item">
+                    <span className="mobile-distance-label">Baseline Carry:</span>
+                    <span className="mobile-distance-value baseline">{club.baselineCarry}y</span>
+                  </div>
+                  <div className="mobile-distance-item">
+                    <span className="mobile-distance-label">Baseline Total:</span>
+                    <span className="mobile-distance-value baseline">{club.baselineTotal}y</span>
+                  </div>
+                  <div className="mobile-distance-item">
+                    <span className="mobile-distance-label">Adjusted Carry:</span>
+                    <span className="mobile-distance-value carry">{club.adjustedCarry}y</span>
+                  </div>
+                  <div className="mobile-distance-item">
+                    <span className="mobile-distance-label">Rollout:</span>
+                    <span className="mobile-distance-value rollout">{club.rollout}y</span>
+                  </div>
+                  <div className="mobile-final-distance">
+                    <div className="mobile-distance-item">
+                      <span className="mobile-distance-label">Final Position:</span>
+                      <span className="mobile-distance-value total">{club.finalPosition}y</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Legend */}
