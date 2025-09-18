@@ -1127,3 +1127,49 @@ body {
   }
 }
 
+
+/* Unit Toggle for Putting Drills */
+.unit-toggle-container {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.unit-toggle {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 500;
+  color: #059669;
+  background: #f0f9ff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #0ea5e9;
+  transition: all 0.2s;
+}
+
+.unit-toggle:hover {
+  background: #e0f2fe;
+}
+
+.unit-toggle input[type="checkbox"] {
+  margin-right: 0.5rem;
+  transform: scale(1.2);
+  accent-color: #0ea5e9;
+}
+
+.unit-toggle-text {
+  user-select: none;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+  .unit-toggle {
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .unit-toggle-text {
+    font-size: 0.8rem;
+  }
+}
+
