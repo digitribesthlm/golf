@@ -745,3 +745,34 @@ body {
   }
 }
 
+
+/* Custom Club Styles */
+.btn-danger {
+  background: #dc2626;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+.mobile-club-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-remove-btn {
+  margin-left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  min-width: auto;
+}
+
+/* Settings table actions column */
+.settings-table th:last-child,
+.settings-table td:last-child {
+  width: 80px;
+  text-align: center;
+}
+

@@ -82,7 +82,39 @@ export default function PlayerSettings({ currentPlayer, playerData, onPlayerChan
     }
   };
 
-  const clubOrder = ['SW', 'PW', '9i', '8i', '7i', '6i', '5i', '4i', '3i', 'U3', 'W3', 'M1'];
+  const addCustomClub = () => {
+    const clubName = prompt('Enter club name (e.g., "60° Wedge", "52° Gap Wedge"):');
+    if (!clubName || !clubName.trim()) return;
+    
+    const clubKey = `custom_${Date.now()}`;
+    const newClub = {
+      name: clubName.trim(),
+      baseline: { carry: 50, total: 52 },
+      calm17: { carry: 49, total: 51 },
+      headwind18: { carry: 45, total: 47 },
+      tailwind18: { carry: 53, total: 55 },
+      rolloutFactor: 0.5
+    };
+    
+    setClubData(prev => ({
+      ...prev,
+      [clubKey]: newClub
+    }));
+  };
+
+  const removeCustomClub = (clubKey) => {
+    if (confirm('Remove this custom club?')) {
+      setClubData(prev => {
+        const newData = { ...prev };
+        delete newData[clubKey];
+        return newData;
+      });
+    }
+  };
+
+  const defaultClubKeys = ['SW', 'PW', '9i', '8i', '7i', '6i', '5i', '4i', '3i', 'U3', 'W3', 'M1'];
+  const customClubKeys = Object.keys(clubData).filter(key => !defaultClubKeys.includes(key));
+  const allClubKeys = [...defaultClubKeys, ...customClubKeys];
 
   return (
     <div>
@@ -155,14 +187,22 @@ export default function PlayerSettings({ currentPlayer, playerData, onPlayerChan
       {/* Distance Editing */}
       {isEditing && (
         <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
             <h2>Edit Club Distances</h2>
-            <button
-              onClick={resetToDefault}
-              className="btn btn-secondary"
-            >
-              Reset to Default
-            </button>
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <button
+                onClick={addCustomClub}
+                className="btn btn-secondary"
+              >
+                + Add Club
+              </button>
+              <button
+                onClick={resetToDefault}
+                className="btn btn-secondary"
+              >
+                Reset to Default
+              </button>
+            </div>
           </div>
 
           <div className="info-box warning">
@@ -180,11 +220,13 @@ export default function PlayerSettings({ currentPlayer, playerData, onPlayerChan
                   <th>Club</th>
                   <th>Carry Distance (m)</th>
                   <th>Rollout Factor</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {clubOrder.map((clubKey, index) => {
+                {allClubKeys.map((clubKey, index) => {
                   const club = clubData[clubKey];
+                  const isCustom = !defaultClubKeys.includes(clubKey);
                   return (
                     <tr key={clubKey}>
                       <td style={{ fontWeight: '600', textAlign: 'left' }}>{club.name}</td>
@@ -205,6 +247,17 @@ export default function PlayerSettings({ currentPlayer, playerData, onPlayerChan
                           className="settings-input"
                         />
                       </td>
+                      <td>
+                        {isCustom && (
+                          <button
+                            onClick={() => removeCustomClub(clubKey)}
+                            className="btn btn-danger btn-small"
+                            title="Remove custom club"
+                          >
+                            ✕
+                          </button>
+                        )}
+                      </td>
                     </tr>
                   );
                 })}
@@ -214,12 +267,22 @@ export default function PlayerSettings({ currentPlayer, playerData, onPlayerChan
 
           {/* Mobile Settings Cards */}
           <div className="settings-mobile">
-            {clubOrder.map((clubKey, index) => {
+            {allClubKeys.map((clubKey, index) => {
               const club = clubData[clubKey];
+              const isCustom = !defaultClubKeys.includes(clubKey);
               return (
                 <div key={clubKey} className="mobile-settings-card">
                   <div className="mobile-club-header">
                     {club.name}
+                    {isCustom && (
+                      <button
+                        onClick={() => removeCustomClub(clubKey)}
+                        className="btn btn-danger btn-small mobile-remove-btn"
+                        title="Remove custom club"
+                      >
+                        ✕
+                      </button>
+                    )}
                   </div>
                   
                   <div className="mobile-input-row">
