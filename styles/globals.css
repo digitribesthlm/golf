@@ -60,23 +60,26 @@ body {
 .tab-button {
   flex: 1;
   padding: 1rem 1.5rem;
-  background: none;
+  background: #f3f4f6;
   border: none;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
   border-bottom: 2px solid transparent;
+  color: #6b7280;
 }
 
 .tab-button.active {
-  background: #059669;
-  color: white;
+  background: white;
+  color: #059669;
   border-bottom-color: #059669;
+  font-weight: 600;
 }
 
 .tab-button:not(.active):hover {
-  color: #059669;
+  background: #e5e7eb;
+  color: #374151;
 }
 
 /* Tab content */
