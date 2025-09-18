@@ -173,17 +173,19 @@ export default function GolfCalculator({ playerData }) {
 
       {/* Form */}
       <form onSubmit={handleCalculate} className={formCollapsed ? 'form-collapsed' : ''}>
-        {/* Wind-Only Mode Toggle */}
-        <div className="wind-toggle-container">
-          <label className="wind-toggle">
-            <input
-              type="checkbox"
-              checked={windOnlyMode}
-              onChange={(e) => setWindOnlyMode(e.target.checked)}
-            />
-            <span className="wind-toggle-text">⚡ Quick Wind Mode (for mobile play)</span>
-          </label>
-        </div>
+        {/* Wind-Only Mode Toggle - Only show when wind is not calm */}
+        {windDirection !== 'calm' && (
+          <div className="wind-toggle-container">
+            <label className="wind-toggle">
+              <input
+                type="checkbox"
+                checked={windOnlyMode}
+                onChange={(e) => setWindOnlyMode(e.target.checked)}
+              />
+              <span className="wind-toggle-text">⚡ Quick Wind Mode (for mobile play)</span>
+            </label>
+          </div>
+        )}
 
         <div className="form-grid">
           {/* Temperature - Hidden in wind-only mode */}
