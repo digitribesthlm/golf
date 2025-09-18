@@ -24,6 +24,7 @@ export default function GolfCalculator({ playerData }) {
   const [rainCondition, setRainCondition] = useState('dry');
   const [results, setResults] = useState(null);
   const [formCollapsed, setFormCollapsed] = useState(false);
+  const [windOnlyMode, setWindOnlyMode] = useState(false);
 
   const clubData = playerData || defaultClubData;
 
@@ -172,22 +173,36 @@ export default function GolfCalculator({ playerData }) {
 
       {/* Form */}
       <form onSubmit={handleCalculate} className={formCollapsed ? 'form-collapsed' : ''}>
-        <div className="form-grid">
-          {/* Temperature */}
-          <div className="form-group">
-            <label htmlFor="temperature" className="form-label">
-              Temperature (°C)
-            </label>
+        {/* Wind-Only Mode Toggle */}
+        <div className="wind-toggle-container">
+          <label className="wind-toggle">
             <input
-              type="number"
-              id="temperature"
-              value={temperature}
-              onChange={(e) => setTemperature(parseInt(e.target.value))}
-              className="form-input"
-              min="-10"
-              max="50"
+              type="checkbox"
+              checked={windOnlyMode}
+              onChange={(e) => setWindOnlyMode(e.target.checked)}
             />
-          </div>
+            <span className="wind-toggle-text">⚡ Quick Wind Mode (for mobile play)</span>
+          </label>
+        </div>
+
+        <div className="form-grid">
+          {/* Temperature - Hidden in wind-only mode */}
+          {!windOnlyMode && (
+            <div className="form-group">
+              <label htmlFor="temperature" className="form-label">
+                Temperature (°C)
+              </label>
+              <input
+                type="number"
+                id="temperature"
+                value={temperature}
+                onChange={(e) => setTemperature(parseInt(e.target.value))}
+                className="form-input"
+                min="-10"
+                max="50"
+              />
+            </div>
+          )}
 
           {/* Wind Direction */}
           <div className="form-group">
@@ -231,40 +246,44 @@ export default function GolfCalculator({ playerData }) {
             />
           </div>
 
-          {/* Green Conditions */}
-          <div className="form-group">
-            <label htmlFor="greenCondition" className="form-label">
-              Green Conditions
-            </label>
-            <select
-              id="greenCondition"
-              value={greenCondition}
-              onChange={(e) => setGreenCondition(e.target.value)}
-              className="form-select"
-            >
-              <option value="soft">Soft (Minimal rollout)</option>
-              <option value="medium">Medium (Normal rollout)</option>
-              <option value="firm">Firm (Maximum rollout)</option>
-            </select>
-          </div>
+          {/* Green Conditions - Hidden in wind-only mode */}
+          {!windOnlyMode && (
+            <div className="form-group">
+              <label htmlFor="greenCondition" className="form-label">
+                Green Conditions
+              </label>
+              <select
+                id="greenCondition"
+                value={greenCondition}
+                onChange={(e) => setGreenCondition(e.target.value)}
+                className="form-select"
+              >
+                <option value="soft">Soft (Minimal rollout)</option>
+                <option value="medium">Medium (Normal rollout)</option>
+                <option value="firm">Firm (Maximum rollout)</option>
+              </select>
+            </div>
+          )}
 
-          {/* Rain Conditions */}
-          <div className="form-group">
-            <label htmlFor="rainCondition" className="form-label">
-              Rain Conditions
-            </label>
-            <select
-              id="rainCondition"
-              value={rainCondition}
-              onChange={(e) => setRainCondition(e.target.value)}
-              className="form-select"
-            >
-              <option value="dry">Dry (No rain)</option>
-              <option value="light">Light rain</option>
-              <option value="moderate">Moderate rain</option>
-              <option value="heavy">Heavy rain</option>
-            </select>
-          </div>
+          {/* Rain Conditions - Hidden in wind-only mode */}
+          {!windOnlyMode && (
+            <div className="form-group">
+              <label htmlFor="rainCondition" className="form-label">
+                Rain Conditions
+              </label>
+              <select
+                id="rainCondition"
+                value={rainCondition}
+                onChange={(e) => setRainCondition(e.target.value)}
+                className="form-select"
+              >
+                <option value="dry">Dry (No rain)</option>
+                <option value="light">Light rain</option>
+                <option value="moderate">Moderate rain</option>
+                <option value="heavy">Heavy rain</option>
+              </select>
+            </div>
+          )}
         </div>
 
         {/* Calculate Button */}
