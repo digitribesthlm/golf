@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import GolfCalculator from '../components/GolfCalculator';
 import PlayerSettings from '../components/PlayerSettings';
+import PuttingDrills from '../components/PuttingDrills';
 import Login from '../components/Login';
 import { getPlayerData, savePlayerData, getActivePlayer, setActivePlayer } from '../lib/playerStorage';
 
@@ -102,6 +103,12 @@ export default function Home() {
             📊 Calculator
           </button>
           <button
+            onClick={() => setActiveTab('putting')}
+            className={`tab-button ${activeTab === 'putting' ? 'active' : ''}`}
+          >
+            🏌️‍♂️ Putting Drills
+          </button>
+          <button
             onClick={() => setActiveTab('settings')}
             className={`tab-button ${activeTab === 'settings' ? 'active' : ''}`}
           >
@@ -113,6 +120,8 @@ export default function Home() {
         <div className="tab-content">
           {activeTab === 'calculator' ? (
             <GolfCalculator playerData={playerData} />
+          ) : activeTab === 'putting' ? (
+            <PuttingDrills />
           ) : (
             <PlayerSettings
               currentPlayer={currentPlayer}

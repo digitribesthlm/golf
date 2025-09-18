@@ -939,3 +939,191 @@ body {
   }
 }
 
+
+/* Putting Drills Styles */
+.putting-drills {
+  max-width: 100%;
+}
+
+.putting-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.putting-header h2 {
+  color: #059669;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.75rem;
+}
+
+.putting-header p {
+  color: #6b7280;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.putting-info {
+  margin-bottom: 2rem;
+}
+
+.putting-info h3 {
+  margin: 0 0 1rem 0;
+  color: #374151;
+  font-size: 1.125rem;
+}
+
+.putting-info ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.putting-info li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+/* Putting Table */
+.putting-table-container {
+  overflow-x: auto;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.putting-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  font-size: 0.875rem;
+}
+
+.putting-table th,
+.putting-table td {
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  border: 1px solid #e5e7eb;
+}
+
+.putting-table th {
+  background: #059669;
+  color: white;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.stimp-header {
+  background: #047857 !important;
+  font-weight: 700;
+}
+
+.distance-header {
+  min-width: 60px;
+}
+
+.stimp-cell {
+  background: #f0f9ff;
+  font-weight: 600;
+  color: #0369a1;
+}
+
+.backstroke-cell {
+  font-weight: 500;
+  color: #374151;
+}
+
+.backstroke-cell:hover {
+  background: #f9fafb;
+}
+
+/* Mobile Putting Cards */
+.putting-mobile {
+  display: none;
+}
+
+.putting-mobile-card {
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+
+.mobile-stimp-header {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #059669;
+  margin-bottom: 0.75rem;
+  text-align: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.mobile-distances {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.mobile-distance-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: #f9fafb;
+  border-radius: 0.25rem;
+}
+
+.mobile-distance {
+  font-weight: 500;
+  color: #374151;
+}
+
+.mobile-backstroke {
+  font-weight: 600;
+  color: #059669;
+}
+
+/* Putting Tips */
+.putting-tips {
+  margin-top: 2rem;
+}
+
+.putting-tips h3 {
+  margin: 0 0 1rem 0;
+  color: #374151;
+  font-size: 1.125rem;
+}
+
+.putting-tips ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.putting-tips li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+/* Mobile responsive for putting drills */
+@media (max-width: 768px) {
+  .putting-table-container {
+    display: none;
+  }
+  
+  .putting-mobile {
+    display: block;
+  }
+  
+  .putting-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .putting-header p {
+    font-size: 0.875rem;
+  }
+  
+  .mobile-distances {
+    grid-template-columns: 1fr;
+  }
+}
+
