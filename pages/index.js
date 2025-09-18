@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import GolfCalculator from '../components/GolfCalculator';
 import PlayerSettings from '../components/PlayerSettings';
+import CookieNotice from '../components/CookieNotice';
 import { getPlayerData, savePlayerData, getActivePlayer, setActivePlayer } from '../lib/playerStorage';
 
 export default function Home() {
@@ -85,6 +86,9 @@ export default function Home() {
             />
           )}
         </div>
+
+        {/* Cookie Notice */}
+        <CookieNotice />
       </div>
     </>
   );
