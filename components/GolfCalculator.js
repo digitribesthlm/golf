@@ -23,6 +23,7 @@ export default function GolfCalculator({ playerData }) {
   const [greenCondition, setGreenCondition] = useState('medium');
   const [rainCondition, setRainCondition] = useState('dry');
   const [results, setResults] = useState(null);
+  const [formCollapsed, setFormCollapsed] = useState(false);
 
   const clubData = playerData || defaultClubData;
 
