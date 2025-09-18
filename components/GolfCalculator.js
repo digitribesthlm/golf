@@ -319,24 +319,24 @@ export default function GolfCalculator({ playerData }) {
                 <div className="mobile-distance-grid">
                   <div className="mobile-distance-item">
                     <span className="mobile-distance-label">Baseline Carry:</span>
-                    <span className="mobile-distance-value baseline">{club.baselineCarry}y</span>
+                    <span className="mobile-distance-value baseline">{club.baselineCarry}m</span>
                   </div>
                   <div className="mobile-distance-item">
                     <span className="mobile-distance-label">Baseline Total:</span>
-                    <span className="mobile-distance-value baseline">{club.baselineTotal}y</span>
+                    <span className="mobile-distance-value baseline">{club.baselineTotal}m</span>
                   </div>
                   <div className="mobile-distance-item">
                     <span className="mobile-distance-label">Adjusted Carry:</span>
-                    <span className="mobile-distance-value carry">{club.adjustedCarry}y</span>
+                    <span className="mobile-distance-value carry">{club.adjustedCarry}m</span>
                   </div>
                   <div className="mobile-distance-item">
                     <span className="mobile-distance-label">Rollout:</span>
-                    <span className="mobile-distance-value rollout">{club.rollout}y</span>
+                    <span className="mobile-distance-value rollout">{club.rollout}m</span>
                   </div>
                   <div className="mobile-final-distance">
                     <div className="mobile-distance-item">
                       <span className="mobile-distance-label">Final Position:</span>
-                      <span className="mobile-distance-value total">{club.finalPosition}y</span>
+                      <span className="mobile-distance-value total">{club.finalPosition}m</span>
                     </div>
                   </div>
                 </div>
