@@ -229,22 +229,23 @@ export default function GolfCalculator({ playerData }) {
             </select>
           </div>
 
-          {/* Wind Speed */}
-          <div className="form-group">
-            <label htmlFor="windSpeed" className="form-label">
-              Wind Speed (km/h)
-            </label>
-            <input
-              type="number"
-              id="windSpeed"
-              value={windSpeed}
-              onChange={(e) => setWindSpeed(parseInt(e.target.value))}
-              className="form-input"
-              min="0"
-              max="50"
-              disabled={windDirection === 'calm'}
-            />
-          </div>
+          {/* Wind Speed - Only show when wind is not calm */}
+          {windDirection !== 'calm' && (
+            <div className="form-group">
+              <label htmlFor="windSpeed" className="form-label">
+                Wind Speed (km/h)
+              </label>
+              <input
+                type="number"
+                id="windSpeed"
+                value={windSpeed}
+                onChange={(e) => setWindSpeed(parseInt(e.target.value))}
+                className="form-input"
+                min="0"
+                max="50"
+              />
+            </div>
+          )}
 
           {/* Green Conditions - Hidden in wind-only mode */}
           {!windOnlyMode && (
