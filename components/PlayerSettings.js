@@ -167,8 +167,8 @@ export default function PlayerSettings({ currentPlayer, playerData, onPlayerChan
 
           <div className="info-box warning">
             <p>
-              <strong>Note:</strong> Enter your personal distances for each club. The baseline distances are used for calculations, 
-              while the condition-specific distances help calibrate wind effects. Rollout factor affects how much the ball rolls on greens.
+              <strong>Simple Setup:</strong> Just enter your carry distance and rollout factor for each club. 
+              The app will automatically calculate all wind and weather variations for you!
             </p>
           </div>
 
@@ -178,14 +178,7 @@ export default function PlayerSettings({ currentPlayer, playerData, onPlayerChan
               <thead>
                 <tr>
                   <th>Club</th>
-                  <th>Baseline Carry</th>
-                  <th>Baseline Total</th>
-                  <th>Calm 17°C Carry</th>
-                  <th>Calm 17°C Total</th>
-                  <th>Headwind Carry</th>
-                  <th>Headwind Total</th>
-                  <th>Tailwind Carry</th>
-                  <th>Tailwind Total</th>
+                  <th>Carry Distance (m)</th>
                   <th>Rollout Factor</th>
                 </tr>
               </thead>
@@ -200,62 +193,6 @@ export default function PlayerSettings({ currentPlayer, playerData, onPlayerChan
                           type="number"
                           value={club.baseline.carry}
                           onChange={(e) => handleClubDataChange(clubKey, 'baseline', 'carry', e.target.value)}
-                          className="settings-input"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          value={club.baseline.total}
-                          onChange={(e) => handleClubDataChange(clubKey, 'baseline', 'total', e.target.value)}
-                          className="settings-input"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          value={club.calm17.carry}
-                          onChange={(e) => handleClubDataChange(clubKey, 'calm17', 'carry', e.target.value)}
-                          className="settings-input"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          value={club.calm17.total}
-                          onChange={(e) => handleClubDataChange(clubKey, 'calm17', 'total', e.target.value)}
-                          className="settings-input"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          value={club.headwind18.carry}
-                          onChange={(e) => handleClubDataChange(clubKey, 'headwind18', 'carry', e.target.value)}
-                          className="settings-input"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          value={club.headwind18.total}
-                          onChange={(e) => handleClubDataChange(clubKey, 'headwind18', 'total', e.target.value)}
-                          className="settings-input"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          value={club.tailwind18.carry}
-                          onChange={(e) => handleClubDataChange(clubKey, 'tailwind18', 'carry', e.target.value)}
-                          className="settings-input"
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          value={club.tailwind18.total}
-                          onChange={(e) => handleClubDataChange(clubKey, 'tailwind18', 'total', e.target.value)}
                           className="settings-input"
                         />
                       </td>
@@ -285,106 +222,25 @@ export default function PlayerSettings({ currentPlayer, playerData, onPlayerChan
                     {club.name}
                   </div>
                   
-                  <div className="mobile-settings-section">
-                    <h4>Baseline Distances</h4>
-                    <div className="mobile-input-row">
-                      <label>Carry:</label>
-                      <input
-                        type="number"
-                        value={club.baseline.carry}
-                        onChange={(e) => handleClubDataChange(clubKey, 'baseline', 'carry', e.target.value)}
-                        className="settings-input-mobile"
-                      />
-                    </div>
-                    <div className="mobile-input-row">
-                      <label>Total:</label>
-                      <input
-                        type="number"
-                        value={club.baseline.total}
-                        onChange={(e) => handleClubDataChange(clubKey, 'baseline', 'total', e.target.value)}
-                        className="settings-input-mobile"
-                      />
-                    </div>
+                  <div className="mobile-input-row">
+                    <label>Carry Distance (m):</label>
+                    <input
+                      type="number"
+                      value={club.baseline.carry}
+                      onChange={(e) => handleClubDataChange(clubKey, 'baseline', 'carry', e.target.value)}
+                      className="settings-input-mobile"
+                    />
                   </div>
-
-                  <div className="mobile-settings-section">
-                    <h4>Calm 17°C</h4>
-                    <div className="mobile-input-row">
-                      <label>Carry:</label>
-                      <input
-                        type="number"
-                        value={club.calm17.carry}
-                        onChange={(e) => handleClubDataChange(clubKey, 'calm17', 'carry', e.target.value)}
-                        className="settings-input-mobile"
-                      />
-                    </div>
-                    <div className="mobile-input-row">
-                      <label>Total:</label>
-                      <input
-                        type="number"
-                        value={club.calm17.total}
-                        onChange={(e) => handleClubDataChange(clubKey, 'calm17', 'total', e.target.value)}
-                        className="settings-input-mobile"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="mobile-settings-section">
-                    <h4>Headwind 18 km/h</h4>
-                    <div className="mobile-input-row">
-                      <label>Carry:</label>
-                      <input
-                        type="number"
-                        value={club.headwind18.carry}
-                        onChange={(e) => handleClubDataChange(clubKey, 'headwind18', 'carry', e.target.value)}
-                        className="settings-input-mobile"
-                      />
-                    </div>
-                    <div className="mobile-input-row">
-                      <label>Total:</label>
-                      <input
-                        type="number"
-                        value={club.headwind18.total}
-                        onChange={(e) => handleClubDataChange(clubKey, 'headwind18', 'total', e.target.value)}
-                        className="settings-input-mobile"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="mobile-settings-section">
-                    <h4>Tailwind 18 km/h</h4>
-                    <div className="mobile-input-row">
-                      <label>Carry:</label>
-                      <input
-                        type="number"
-                        value={club.tailwind18.carry}
-                        onChange={(e) => handleClubDataChange(clubKey, 'tailwind18', 'carry', e.target.value)}
-                        className="settings-input-mobile"
-                      />
-                    </div>
-                    <div className="mobile-input-row">
-                      <label>Total:</label>
-                      <input
-                        type="number"
-                        value={club.tailwind18.total}
-                        onChange={(e) => handleClubDataChange(clubKey, 'tailwind18', 'total', e.target.value)}
-                        className="settings-input-mobile"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="mobile-settings-section">
-                    <h4>Rollout Factor</h4>
-                    <div className="mobile-input-row">
-                      <label>Factor:</label>
-                      <input
-                        type="number"
-                        step="0.1"
-                        value={club.rolloutFactor}
-                        onChange={(e) => handleRolloutFactorChange(clubKey, e.target.value)}
-                        className="settings-input-mobile"
-                      />
-                    </div>
+                  
+                  <div className="mobile-input-row">
+                    <label>Rollout Factor:</label>
+                    <input
+                      type="number"
+                      step="0.1"
+                      value={club.rolloutFactor}
+                      onChange={(e) => handleRolloutFactorChange(clubKey, e.target.value)}
+                      className="settings-input-mobile"
+                    />
                   </div>
                 </div>
               );
