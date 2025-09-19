@@ -15,18 +15,50 @@ export default function Home() {
 
   useEffect(() => {
     // Check authentication status
-    const authStatus = localStorage.getItem('golfAppAuthenticated');
-    setIsAuthenticated(authStatus === 'true');
+    const checkAuth = async () => {
+      const token = localStorage.getItem('golfAppToken');
+      const authStatus = localStorage.getItem('golfAppAuthenticated');
+      
+      if (token && authStatus === 'true') {
+        // Verify token with server
+        try {
+          const response = await fetch('/api/auth/verify', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token }),
+          });
+          
+          if (response.ok) {
+            setIsAuthenticated(true);
+          } else {
+            // Token is invalid, clear auth data
+            localStorage.removeItem('golfAppToken');
+            localStorage.removeItem('golfAppUser');
+            localStorage.removeItem('golfAppAuthenticated');
+            setIsAuthenticated(false);
+          }
+        } catch (error) {
+          console.error('Auth verification error:', error);
+          setIsAuthenticated(false);
+        }
+      } else {
+        setIsAuthenticated(false);
+      }
+      
+      // Load active player and their data on component mount
+      const activePlayer = getActivePlayer();
+      if (activePlayer) {
+        setCurrentPlayer(activePlayer);
+        const data = getPlayerData(activePlayer);
+        setPlayerData(data);
+      }
+      
+      setIsLoading(false);
+    };
     
-    // Load active player and their data on component mount
-    const activePlayer = getActivePlayer();
-    if (activePlayer) {
-      setCurrentPlayer(activePlayer);
-      const data = getPlayerData(activePlayer);
-      setPlayerData(data);
-    }
-    
-    setIsLoading(false);
+    checkAuth();
   }, []);
 
   const handlePlayerChange = (playerName) => {
@@ -48,6 +80,8 @@ export default function Home() {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem('golfAppToken');
+    localStorage.removeItem('golfAppUser');
     localStorage.removeItem('golfAppAuthenticated');
     setIsAuthenticated(false);
   };

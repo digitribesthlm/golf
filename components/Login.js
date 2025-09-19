@@ -4,20 +4,42 @@ export default function Login({ onLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRegisterMode, setIsRegisterMode] = useState(false);
 
-  // Hardcoded credentials
-  const VALID_USERNAME = 'digitribesthlm';
-  const VALID_PASSWORD = 'golf2024';
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError('');
     
-    if (username === VALID_USERNAME && password === VALID_PASSWORD) {
-      localStorage.setItem('golfAppAuthenticated', 'true');
-      onLogin();
-    } else {
-      setError('Invalid username or password');
-      setPassword(''); // Clear password on error
+    try {
+      const endpoint = isRegisterMode ? '/api/auth/register' : '/api/auth/login';
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Store token in localStorage
+        localStorage.setItem('golfAppToken', data.token);
+        localStorage.setItem('golfAppUser', JSON.stringify(data.user));
+        localStorage.setItem('golfAppAuthenticated', 'true');
+        onLogin();
+      } else {
+        setError(data.message || 'Authentication failed');
+        setPassword(''); // Clear password on error
+      }
+    } catch (error) {
+      console.error('Auth error:', error);
+      setError('Network error. Please try again.');
+      setPassword('');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -26,7 +48,7 @@ export default function Login({ onLogin }) {
       <div className="login-box">
         <div className="login-header">
           <h1>🏌️‍♂️ Golf Distance Calculator</h1>
-          <p>Private Access Required</p>
+          <p>{isRegisterMode ? 'Create Account' : 'Private Access Required'}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
@@ -42,12 +64,13 @@ export default function Login({ onLogin }) {
               className="form-input"
               required
               autoComplete="username"
+              disabled={isLoading}
             />
           </div>
 
           <div className="form-group">
             <label htmlFor="password" className="form-label">
-              Password
+              Password {isRegisterMode && '(min 6 characters)'}
             </label>
             <input
               type="password"
@@ -56,7 +79,9 @@ export default function Login({ onLogin }) {
               onChange={(e) => setPassword(e.target.value)}
               className="form-input"
               required
-              autoComplete="current-password"
+              autoComplete={isRegisterMode ? 'new-password' : 'current-password'}
+              disabled={isLoading}
+              minLength={isRegisterMode ? 6 : undefined}
             />
           </div>
 
@@ -66,12 +91,24 @@ export default function Login({ onLogin }) {
             </div>
           )}
 
-          <button type="submit" className="btn btn-primary login-btn">
-            Login
+          <button type="submit" className="btn btn-primary login-btn" disabled={isLoading}>
+            {isLoading ? 'Please wait...' : (isRegisterMode ? 'Create Account' : 'Login')}
           </button>
         </form>
 
         <div className="login-footer">
+          <button
+            type="button"
+            onClick={() => {
+              setIsRegisterMode(!isRegisterMode);
+              setError('');
+              setPassword('');
+            }}
+            className="btn btn-secondary btn-small"
+            disabled={isLoading}
+          >
+            {isRegisterMode ? 'Already have an account? Login' : 'Need an account? Register'}
+          </button>
           <p>Calculate golf distances with weather conditions</p>
         </div>
       </div>
