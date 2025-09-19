@@ -1,4 +1,4 @@
-import { getUserByUsername, verifyPassword, generateToken } from '../../../lib/auth';
+import { getUserByIdentity, getUserPasswordHash, verifyPassword, generateToken } from '../../../lib/auth';
 
 export default async function handler(req, res) {
   // Add CORS headers
@@ -29,8 +29,8 @@ export default async function handler(req, res) {
   try {
     console.log('Attempting login for:', username);
     
-    // Get user from database
-    const user = await getUserByUsername(username);
+    // Get user from database by username or email (case-insensitive)
+    const user = await getUserByIdentity(username);
     
     if (!user) {
       console.log('User not found:', username);
@@ -39,8 +39,14 @@ export default async function handler(req, res) {
 
     console.log('User found, verifying password');
 
-    // Verify password
-    const isValidPassword = await verifyPassword(password, user.password);
+    // Verify password (support multiple hash field names)
+    const passwordHash = getUserPasswordHash(user);
+    if (!passwordHash) {
+      console.log('No password hash found for user:', username);
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    const isValidPassword = await verifyPassword(password, passwordHash);
     
     if (!isValidPassword) {
       console.log('Invalid password for user:', username);
