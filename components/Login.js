@@ -5,7 +5,6 @@ export default function Login({ onLogin }) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isRegisterMode, setIsRegisterMode] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,8 +12,7 @@ export default function Login({ onLogin }) {
     setError('');
     
     try {
-      const endpoint = isRegisterMode ? '/api/auth/register' : '/api/auth/login';
-      const response = await fetch(endpoint, {
+      const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +46,7 @@ export default function Login({ onLogin }) {
       <div className="login-box">
         <div className="login-header">
           <h1>🏌️‍♂️ Golf Distance Calculator</h1>
-          <p>{isRegisterMode ? 'Create Account' : 'Private Access Required'}</p>
+          <p>Authorized Access Only</p>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
@@ -70,7 +68,7 @@ export default function Login({ onLogin }) {
 
           <div className="form-group">
             <label htmlFor="password" className="form-label">
-              Password {isRegisterMode && '(min 6 characters)'}
+              Password
             </label>
             <input
               type="password"
@@ -79,9 +77,8 @@ export default function Login({ onLogin }) {
               onChange={(e) => setPassword(e.target.value)}
               className="form-input"
               required
-              autoComplete={isRegisterMode ? 'new-password' : 'current-password'}
+              autoComplete="current-password"
               disabled={isLoading}
-              minLength={isRegisterMode ? 6 : undefined}
             />
           </div>
 
@@ -92,24 +89,12 @@ export default function Login({ onLogin }) {
           )}
 
           <button type="submit" className="btn btn-primary login-btn" disabled={isLoading}>
-            {isLoading ? 'Please wait...' : (isRegisterMode ? 'Create Account' : 'Login')}
+            {isLoading ? 'Please wait...' : 'Login'}
           </button>
         </form>
 
         <div className="login-footer">
-          <button
-            type="button"
-            onClick={() => {
-              setIsRegisterMode(!isRegisterMode);
-              setError('');
-              setPassword('');
-            }}
-            className="btn btn-secondary btn-small"
-            disabled={isLoading}
-          >
-            {isRegisterMode ? 'Already have an account? Login' : 'Need an account? Register'}
-          </button>
-          <p>Calculate golf distances with weather conditions</p>
+          <p>Professional golf distance calculator</p>
         </div>
       </div>
     </div>
