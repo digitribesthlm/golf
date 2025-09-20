@@ -53,30 +53,36 @@ export default function GolfCalculator({ playerData }) {
     carry += tempAdjustment;
     total += tempAdjustment;
 
-    // Wind adjustments
+    // Wind adjustments using percentage-based system
+    // Convert km/h to mph for percentage calculation (1 km/h = 0.621371 mph)
+    const windSpeedMph = windSpeed * 0.621371;
+    
     if (windDirection === 'calm') {
       // No additional wind adjustment for calm conditions
     } else if (windDirection === 'headwind') {
-      const headwindCarryLoss = data.baseline.carry - data.headwind18.carry;
-      const headwindTotalLoss = data.baseline.total - data.headwind18.total;
+      // Full headwind: larger adjustment (approximately 1% per mph)
+      const windPercentage = windSpeedMph * 1.0; // 1% per mph
+      const carryAdjustment = carry * (windPercentage / 100);
+      const totalAdjustment = total * (windPercentage / 100);
       
-      const windFactor = windSpeed / 18;
-      carry -= headwindCarryLoss * windFactor;
-      total -= headwindTotalLoss * windFactor;
+      carry -= carryAdjustment;
+      total -= totalAdjustment;
     } else if (windDirection === 'tailwind') {
-      const tailwindCarryGain = data.tailwind18.carry - data.baseline.carry;
-      const tailwindTotalGain = data.tailwind18.total - data.baseline.total;
+      // Downwind: roughly add about half the wind speed as percent
+      const windPercentage = windSpeedMph * 0.5; // 0.5% per mph
+      const carryAdjustment = carry * (windPercentage / 100);
+      const totalAdjustment = total * (windPercentage / 100);
       
-      const windFactor = windSpeed / 18;
-      carry += tailwindCarryGain * windFactor;
-      total += tailwindTotalGain * windFactor;
+      carry += carryAdjustment;
+      total += totalAdjustment;
     } else if (windDirection === 'crosswind') {
-      const headwindCarryLoss = data.baseline.carry - data.headwind18.carry;
-      const headwindTotalLoss = data.baseline.total - data.headwind18.total;
+      // Quartering wind: use ~25% of the wind number
+      const windPercentage = windSpeedMph * 0.25; // 0.25% per mph
+      const carryAdjustment = carry * (windPercentage / 100);
+      const totalAdjustment = total * (windPercentage / 100);
       
-      const windFactor = windSpeed / 18;
-      carry -= (headwindCarryLoss * windFactor * 0.1);
-      total -= (headwindTotalLoss * windFactor * 0.1);
+      carry -= carryAdjustment; // Crosswind typically hurts distance slightly
+      total -= totalAdjustment;
     }
 
     // Rain adjustments (affects carry distance due to air density)
@@ -219,7 +225,7 @@ export default function GolfCalculator({ playerData }) {
                 if (e.target.value === 'calm') {
                   setWindSpeed(0);
                 } else if (windSpeed === 0) {
-                  setWindSpeed(18);
+                  setWindSpeed(24);
                 }
               }}
               className="form-select"
