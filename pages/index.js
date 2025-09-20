@@ -3,7 +3,7 @@ import Head from 'next/head';
 import GolfCalculator from '../components/GolfCalculator';
 import PlayerSettings from '../components/PlayerSettings';
 import PuttingDrills from '../components/PuttingDrills';
-// import RoundTracker from '../components/RoundTracker';
+import RoundTracker from '../components/RoundTracker';
 import Login from '../components/Login';
 import { getActivePlayer, getPlayerData } from '../lib/playerStorage';
 
@@ -143,12 +143,12 @@ export default function Home() {
           >
             🏌️‍♂️ Putting Drills
           </button>
-          {/* <button
+          <button
             onClick={() => setActiveTab('tracker')}
             className={`tab-button ${activeTab === 'tracker' ? 'active' : ''}`}
           >
             🎯 Round Tracker
-          </button> */}
+          </button>
           <button
             onClick={() => setActiveTab('settings')}
             className={`tab-button ${activeTab === 'settings' ? 'active' : ''}`}
