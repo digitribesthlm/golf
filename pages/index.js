@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Head from 'next/head';
+import Login from '../components/Login';
 
 export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -9,14 +10,7 @@ export default function Home() {
   };
 
   if (!isAuthenticated) {
-    return (
-      <div style={{ padding: '20px', textAlign: 'center' }}>
-        <h1>Golf Calculator</h1>
-        <button onClick={handleLogin} style={{ padding: '10px 20px', fontSize: '16px' }}>
-          Test Login
-        </button>
-      </div>
-    );
+    return <Login onLogin={handleLogin} />;
   }
 
   return (
