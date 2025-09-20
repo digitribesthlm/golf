@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import Login from '../components/Login';
+import GolfCalculator from '../components/GolfCalculator';
 
 export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -22,8 +23,9 @@ export default function Home() {
 
       <div style={{ padding: '20px' }}>
         <h1>⛳ Golf Distance Calculator</h1>
-        <p>App is working! Authentication successful.</p>
-        <button onClick={() => setIsAuthenticated(false)}>Logout</button>
+        <button onClick={() => setIsAuthenticated(false)} style={{ marginBottom: '20px' }}>Logout</button>
+        
+        <GolfCalculator playerData={{}} />
       </div>
     </>
   );
