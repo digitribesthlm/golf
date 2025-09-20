@@ -1925,3 +1925,94 @@ body {
     align-self: flex-end;
   }
 }
+
+
+/* Perfect Hole Badge Styles */
+.perfect-hole-badge {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  border: 3px solid #d97706;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  text-align: center;
+  animation: perfectHolePulse 2s ease-in-out infinite;
+  box-shadow: 0 10px 25px rgba(251, 191, 36, 0.3);
+}
+
+.trophy-icon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  animation: trophyBounce 1s ease-in-out infinite alternate;
+}
+
+.perfect-hole-text {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #92400e;
+  margin-bottom: 0.25rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.perfect-hole-subtitle {
+  font-size: 0.875rem;
+  color: #b45309;
+  font-weight: 500;
+}
+
+/* Perfect Hole Statistics Card */
+.perfect-holes-card {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px solid #f59e0b;
+}
+
+.perfect-holes-card h3 {
+  color: #92400e;
+}
+
+.round-perfect-holes {
+  color: #d97706;
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Animations */
+@keyframes perfectHolePulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 10px 25px rgba(251, 191, 36, 0.3);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 15px 35px rgba(251, 191, 36, 0.4);
+  }
+}
+
+@keyframes trophyBounce {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Mobile responsiveness for perfect hole badge */
+@media (max-width: 768px) {
+  .perfect-hole-badge {
+    margin: 0.75rem 0;
+    padding: 0.75rem;
+  }
+  
+  .trophy-icon {
+    font-size: 2.5rem;
+  }
+  
+  .perfect-hole-text {
+    font-size: 1.125rem;
+  }
+  
+  .perfect-hole-subtitle {
+    font-size: 0.8rem;
+  }
+}

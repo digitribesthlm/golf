@@ -41,6 +41,13 @@ export default function RoundTracker() {
     setCurrentRound(updatedRound);
   };
 
+  // Check if a hole is a "Perfect Hole" (all framework steps completed)
+  const isPerfectHole = (holeData) => {
+    return holeData.step1 === true && 
+           holeData.step2 === true && 
+           holeData.step3 === true;
+  };
+
   const nextHole = () => {
     if (currentHole < currentRound.holes) {
       setCurrentHole(currentHole + 1);
@@ -65,6 +72,7 @@ export default function RoundTracker() {
       step2Success: currentRound.holeData.filter(hole => hole.step2 === true).length,
       step2_5Success: currentRound.holeData.filter(hole => hole.step2_5 === true).length,
       step3Success: currentRound.holeData.filter(hole => hole.step3 === true).length,
+      perfectHoles: currentRound.holeData.filter(hole => isPerfectHole(hole)).length,
     };
 
     const updatedRounds = [...savedRounds, completedRound];
@@ -130,6 +138,15 @@ export default function RoundTracker() {
           <h2>Round in Progress</h2>
           <p>Hole {currentHole} of {currentRound.holes} | Par {hole.par}</p>
         </div>
+
+        {/* Perfect Hole Badge */}
+        {isPerfectHole(hole) && (
+          <div className="perfect-hole-badge">
+            <div className="trophy-icon">🏆</div>
+            <div className="perfect-hole-text">PERFECT HOLE</div>
+            <div className="perfect-hole-subtitle">All steps completed!</div>
+          </div>
+        )}
 
         <div className="hole-tracking">
           <div className="score-input">
@@ -263,6 +280,11 @@ export default function RoundTracker() {
     const step2Rate = ((completedRounds.reduce((sum, round) => sum + round.step2Success, 0) / totalHoles) * 100).toFixed(1);
     const step2_5Rate = ((completedRounds.reduce((sum, round) => sum + round.step2_5Success, 0) / totalHoles) * 100).toFixed(1);
     const step3Rate = ((completedRounds.reduce((sum, round) => sum + round.step3Success, 0) / totalHoles) * 100).toFixed(1);
+    
+    // Perfect Hole Statistics
+    const totalPerfectHoles = completedRounds.reduce((sum, round) => sum + (round.perfectHoles || 0), 0);
+    const perfectHoleRate = ((totalPerfectHoles / totalHoles) * 100).toFixed(1);
+    const bestPerfectHoleRound = Math.max(...completedRounds.map(round => round.perfectHoles || 0));
 
     return (
       <div className="round-tracker-overview">
@@ -312,6 +334,22 @@ export default function RoundTracker() {
               <span className="stat-value">{step3Rate}%</span>
             </div>
           </div>
+
+          <div className="stat-card perfect-holes-card">
+            <h3>🏆 Perfect Holes</h3>
+            <div className="stat-item">
+              <span className="stat-label">Total Perfect Holes:</span>
+              <span className="stat-value">{totalPerfectHoles}</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Perfect Hole Rate:</span>
+              <span className="stat-value">{perfectHoleRate}%</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-label">Best Round (Perfect Holes):</span>
+              <span className="stat-value">{bestPerfectHoleRound}</span>
+            </div>
+          </div>
         </div>
 
         <div className="rounds-list">
@@ -324,6 +362,11 @@ export default function RoundTracker() {
                 <div className="round-process">
                   Process: {round.step1Success}/{round.holes} | {round.step2Success}/{round.holes} | {round.step2_5Success}/{round.holes} | {round.step3Success}/{round.holes}
                 </div>
+                {(round.perfectHoles || 0) > 0 && (
+                  <div className="round-perfect-holes">
+                    🏆 Perfect Holes: {round.perfectHoles || 0}
+                  </div>
+                )}
               </div>
               <button 
                 onClick={() => deleteRound(round.id)} 
