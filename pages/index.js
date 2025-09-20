@@ -5,7 +5,7 @@ import PlayerSettings from '../components/PlayerSettings';
 import PuttingDrills from '../components/PuttingDrills';
 import RoundTracker from '../components/RoundTracker';
 import Login from '../components/Login';
-import { getActivePlayer, getPlayerData } from '../lib/playerStorage';
+import { getActivePlayer, getPlayerData, setActivePlayer, savePlayerData } from '../lib/playerStorage';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('calculator');
@@ -163,9 +163,9 @@ export default function Home() {
             <GolfCalculator playerData={playerData} />
           ) : activeTab === 'putting' ? (
             <PuttingDrills />
-          ) : /* activeTab === 'tracker' ? (
+          ) : activeTab === 'tracker' ? (
             <RoundTracker />
-          ) : */ (
+          ) : (
             <PlayerSettings
               currentPlayer={currentPlayer}
               playerData={playerData}
