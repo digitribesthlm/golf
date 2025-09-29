@@ -131,7 +131,7 @@ export default function GolfCalculator({ playerData }) {
   const handleCalculate = (e) => {
     e.preventDefault();
     
-    const clubOrder = ['SW', 'PW', '9i', '8i', '7i', '6i', '5i', '4i', '3i', 'U3', 'W3', 'M1'];
+    const clubOrder = ['SW', 'PW', '9i', '8i', '7i', '6i', '5i', '4i', '3i', 'U3', 'W3', 'M1', 'P3', 'P1', '48_2K_H', '52_2K_H', '56_2K_H', '56_JV', '52_JV', '60_TBD', '48_2K_P', '52_1K_P', '56_2K_P', '52_2K_P'];
     const calculatedResults = [];
 
     clubOrder.forEach(clubKey => {
