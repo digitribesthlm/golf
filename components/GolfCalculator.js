@@ -3,7 +3,7 @@ import { defaultClubData } from '../lib/playerStorage';
 
 // Green condition multipliers
 const greenConditions = {
-  'soft': 0.3,    // 30% of normal rollout
+  'soft': 0.3,    // 30% of normal rollout.
   'medium': 1.0,  // 100% normal rollout
   'firm': 1.8     // 180% of normal rollout
 };
