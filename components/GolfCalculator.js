@@ -440,13 +440,17 @@ export default function GolfCalculator({ playerData, onClubDataChange }) {
                     <td className="distance-carry">{club.adjustedCarry}</td>
                     <td className="distance-rollout">{club.rollout}</td>
                     <td className="distance-total">{club.finalPosition}</td>
-                    <td>
+                    <td className="remove-cell">
                       <button
                         onClick={() => handleRemoveClub(club.clubKey)}
-                        className="btn btn-danger btn-small"
+                        className="remove-btn"
                         title="Remove club"
+                        aria-label="Remove club"
                       >
-                        ✕
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                          <line x1="18" y1="6" x2="6" y2="18"></line>
+                          <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
                       </button>
                     </td>
                   </tr>
@@ -463,10 +467,14 @@ export default function GolfCalculator({ playerData, onClubDataChange }) {
                   {club.club}
                   <button
                     onClick={() => handleRemoveClub(club.clubKey)}
-                    className="btn btn-danger btn-small mobile-remove-btn"
+                    className="remove-btn mobile-remove-btn"
                     title="Remove club"
+                    aria-label="Remove club"
                   >
-                    ✕
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
                   </button>
                 </div>
                 <div className="mobile-distance-grid">

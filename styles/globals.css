@@ -793,13 +793,6 @@ body {
   align-items: center;
 }
 
-.mobile-remove-btn {
-  margin-left: 0.5rem;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
-  min-width: auto;
-}
-
 /* Settings table actions column */
 .settings-table th:last-child,
 .settings-table td:last-child {
@@ -829,12 +822,43 @@ body {
   margin-top: 0.5rem;
 }
 
-/* Results table action column */
-.results-table th:last-child,
-.results-table td:last-child {
-  width: 40px;
+/* Remove button */
+.remove-cell {
+  width: 32px;
   text-align: center;
-  padding: 0.25rem;
+  padding: 0 !important;
+  vertical-align: middle;
+}
+
+.remove-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: all 0.15s;
+  padding: 0;
+  line-height: 1;
+}
+
+.remove-btn:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.remove-btn:active {
+  background: #fecaca;
+}
+
+.mobile-remove-btn {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
 }
 
 @media (max-width: 768px) {
