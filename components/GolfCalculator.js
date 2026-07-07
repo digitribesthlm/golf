@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { defaultClubData } from '../lib/playerStorage';
 
 // Green condition multipliers
@@ -12,11 +12,13 @@ const greenConditions = {
 const rainConditions = {
   'dry': { carryMultiplier: 1.0, rolloutMultiplier: 1.0 },
   'light': { carryMultiplier: 0.98, rolloutMultiplier: 0.7 },      // 2% carry loss, 30% rollout reduction
-  'moderate': { carryMultiplier: 0.95, rolloutMultiplier: 0.4 },   // 5% carry loss, 60% rollout reduction  
+  'moderate': { carryMultiplier: 0.95, rolloutMultiplier: 0.4 },   // 5% carry loss, 60% rollout reduction
   'heavy': { carryMultiplier: 0.92, rolloutMultiplier: 0.2 }       // 8% carry loss, 80% rollout reduction
 };
 
-export default function GolfCalculator({ playerData }) {
+const defaultClubKeys = Object.keys(defaultClubData);
+
+export default function GolfCalculator({ playerData, onClubDataChange }) {
   const [temperature, setTemperature] = useState(17);
   const [windDirection, setWindDirection] = useState('calm');
   const [windSpeed, setWindSpeed] = useState(0);
@@ -25,8 +27,54 @@ export default function GolfCalculator({ playerData }) {
   const [results, setResults] = useState(null);
   const [formCollapsed, setFormCollapsed] = useState(false);
   const [windOnlyMode, setWindOnlyMode] = useState(false);
+  const [clubData, setClubData] = useState(playerData || defaultClubData);
+  const [showAddClubForm, setShowAddClubForm] = useState(false);
+  const [newClub, setNewClub] = useState({ name: '', carry: 50, rollout: 2.0 });
 
-  const clubData = playerData || defaultClubData;
+  useEffect(() => {
+    if (playerData) {
+      setClubData(playerData);
+    }
+  }, [playerData]);
+
+  const getClubOrder = () => {
+    return Object.entries(clubData)
+      .sort(([, a], [, b]) => a.baseline.carry - b.baseline.carry)
+      .map(([key]) => key);
+  };
+
+  const handleAddClub = () => {
+    if (!newClub.name.trim()) return;
+    const clubKey = `custom_${Date.now()}`;
+    const club = {
+      name: newClub.name.trim(),
+      baseline: { carry: parseInt(newClub.carry) || 50, total: (parseInt(newClub.carry) || 50) + 2 },
+      calm17: { carry: (parseInt(newClub.carry) || 50) - 1, total: (parseInt(newClub.carry) || 50) + 1 },
+      headwind18: { carry: Math.round((parseInt(newClub.carry) || 50) * 0.9), total: Math.round(((parseInt(newClub.carry) || 50) + 2) * 0.9) },
+      tailwind18: { carry: Math.round((parseInt(newClub.carry) || 50) * 1.05), total: Math.round(((parseInt(newClub.carry) || 50) + 2) * 1.05) },
+      rolloutFactor: parseFloat(newClub.rollout) || 2.0
+    };
+    const updated = { ...clubData, [clubKey]: club };
+    setClubData(updated);
+    if (onClubDataChange) onClubDataChange(updated);
+    setNewClub({ name: '', carry: 50, rollout: 2.0 });
+    setShowAddClubForm(false);
+    setResults(null);
+  };
+
+  const handleRemoveClub = (clubKey) => {
+    if (!confirm(`Remove "${clubData[clubKey].name}" from your bag?`)) return;
+    const updated = { ...clubData };
+    delete updated[clubKey];
+    setClubData(updated);
+    if (onClubDataChange) onClubDataChange(updated);
+    if (results) {
+      setResults({
+        ...results,
+        clubs: results.clubs.filter(c => c.clubKey !== clubKey)
+      });
+    }
+  };
 
   const calculateRollout = (club, greenCondition, rainCondition) => {
     const data = clubData[club];
@@ -131,7 +179,7 @@ export default function GolfCalculator({ playerData }) {
   const handleCalculate = (e) => {
     e.preventDefault();
     
-    const clubOrder = ['48_2C_P2', '56_2C_P2', '52_1C_P2', '52_2C_P2', '56_JIM_P3', '52_JIM_P3', '56_2C_P4', 'SW', '52_2C_P4', '48_2C_P4', 'PW', '9i', '8i', '7i', '6i', '5i', '4i', '3i', 'U3', 'W3', 'M1'];
+    const clubOrder = getClubOrder();
     const calculatedResults = [];
 
     clubOrder.forEach(clubKey => {
@@ -143,6 +191,7 @@ export default function GolfCalculator({ playerData }) {
         const finalPosition = result.carry + rollout;
         
         calculatedResults.push({
+          clubKey: clubKey,
           club: club.name,
           baselineCarry: club.baseline.carry,
           baselineTotal: club.baseline.total,
@@ -301,6 +350,65 @@ export default function GolfCalculator({ playerData }) {
         </button>
       </form>
 
+      {/* Club Management */}
+      <div className="club-management">
+        <button
+          type="button"
+          onClick={() => setShowAddClubForm(!showAddClubForm)}
+          className="btn btn-secondary btn-center"
+          style={{ marginTop: '1rem' }}
+        >
+          {showAddClubForm ? 'Cancel' : '+ Add Club to Bag'}
+        </button>
+
+          {showAddClubForm && (
+            <div className="add-club-form">
+              <div className="form-grid">
+                <div className="form-group">
+                  <label className="form-label">Club Name</label>
+                  <input
+                    type="text"
+                    value={newClub.name}
+                    onChange={(e) => setNewClub(prev => ({ ...prev, name: e.target.value }))}
+                    className="form-input"
+                    placeholder="e.g. 60° Wedge"
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Carry Distance (m)</label>
+                  <input
+                    type="number"
+                    value={newClub.carry}
+                    onChange={(e) => setNewClub(prev => ({ ...prev, carry: e.target.value }))}
+                    className="form-input"
+                    min="10"
+                    max="400"
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Rollout Factor</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    value={newClub.rollout}
+                    onChange={(e) => setNewClub(prev => ({ ...prev, rollout: e.target.value }))}
+                    className="form-input"
+                    min="0"
+                    max="20"
+                  />
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={handleAddClub}
+                className="btn btn-primary btn-center"
+              >
+                Add Club
+              </button>
+            </div>
+          )}
+        </div>
+
       {/* Results */}
       {results && (
         <div>
@@ -320,6 +428,7 @@ export default function GolfCalculator({ playerData }) {
                   <th>Adjusted Carry</th>
                   <th>Rollout Distance</th>
                   <th>Final Position</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -331,6 +440,15 @@ export default function GolfCalculator({ playerData }) {
                     <td className="distance-carry">{club.adjustedCarry}</td>
                     <td className="distance-rollout">{club.rollout}</td>
                     <td className="distance-total">{club.finalPosition}</td>
+                    <td>
+                      <button
+                        onClick={() => handleRemoveClub(club.clubKey)}
+                        className="btn btn-danger btn-small"
+                        title="Remove club"
+                      >
+                        ✕
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -343,6 +461,13 @@ export default function GolfCalculator({ playerData }) {
               <div key={index} className="mobile-club-card">
                 <div className="mobile-club-header">
                   {club.club}
+                  <button
+                    onClick={() => handleRemoveClub(club.clubKey)}
+                    className="btn btn-danger btn-small mobile-remove-btn"
+                    title="Remove club"
+                  >
+                    ✕
+                  </button>
                 </div>
                 <div className="mobile-distance-grid">
                   <div className="mobile-distance-item">

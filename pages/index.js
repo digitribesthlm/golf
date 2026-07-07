@@ -160,7 +160,14 @@ export default function Home() {
         {/* Tab Content */}
         <div className="tab-content">
           {activeTab === 'calculator' ? (
-            <GolfCalculator playerData={playerData} />
+            <GolfCalculator
+              playerData={playerData}
+              onClubDataChange={(clubData) => {
+                if (currentPlayer) {
+                  handlePlayerSave(currentPlayer, clubData);
+                }
+              }}
+            />
           ) : activeTab === 'putting' ? (
             <PuttingDrills />
           ) : activeTab === 'tracker' ? (

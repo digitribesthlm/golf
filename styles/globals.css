@@ -808,7 +808,44 @@ body {
 }
 
 
-/* Wind-Only Mode Toggle */
+/* Club Management in Calculator */
+.club-management {
+  margin-bottom: 1rem;
+}
+
+.add-club-form {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+
+.add-club-form .form-grid {
+  margin-bottom: 1rem;
+}
+
+.add-club-form .btn-primary {
+  margin-top: 0.5rem;
+}
+
+/* Results table action column */
+.results-table th:last-child,
+.results-table td:last-child {
+  width: 40px;
+  text-align: center;
+  padding: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .add-club-form {
+    padding: 1rem;
+  }
+
+  .add-club-form .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
 .wind-toggle-container {
   margin-bottom: 1rem;
   padding: 0.75rem;
