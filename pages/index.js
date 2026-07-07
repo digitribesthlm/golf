@@ -163,7 +163,13 @@ export default function Home() {
             <GolfCalculator
               playerData={playerData}
               onClubDataChange={(clubData) => {
-                if (currentPlayer) {
+                const player = currentPlayer || 'default';
+                savePlayerData(player, clubData);
+                if (!currentPlayer) {
+                  setCurrentPlayer('default');
+                  setPlayerData(clubData);
+                  setActivePlayer('default');
+                } else {
                   handlePlayerSave(currentPlayer, clubData);
                 }
               }}
